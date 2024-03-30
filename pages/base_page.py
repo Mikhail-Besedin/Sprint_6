@@ -3,10 +3,17 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
 
+
+
 class BasePage:
     @allure.step('Открываем браузер Chrome')
     def __init__(self, driver):
        self.driver = driver
+
+    @allure.step('Переключаемся на другое окно браузера')
+    def switch_to_window(self):
+        self.driver.switch_to.window(self.driver.window_handles[1])
+
 
     @allure.step('Находим элемент применяя ожидание, чтобы элемент стал видимым ')
     def find_element_with_wait(self, locator):

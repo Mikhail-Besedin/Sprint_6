@@ -2,9 +2,8 @@ import allure
 import pytest
 
 import data
-from locators.main_page_locators import MainPageLocators
-from locators.order_page_locators import OrderPageLocators
 from pages.order_page import OrderPage
+from pages.main_page import MainPage
 
 
 class TestOrderPage:
@@ -23,23 +22,8 @@ class TestOrderPage:
         ])
     def test_place_an_order(self, driver,name, last_name, adress,tel,comment):
         order_page = OrderPage(driver)
-        order_page.click_to_element(MainPageLocators.HEADER_ORDER_BUTTON)
-        assert 'Заказ оформлен' in order_page.set_order(OrderPageLocators.NAME_LOCATOR, name,
-                                                        OrderPageLocators.lAST_NAME_LOCATOR, last_name,
-                                                        OrderPageLocators.ADRESS_LOCATOR, adress,
-                                                        OrderPageLocators.STATION_BUTTON_LOCATOR, data.name_station,
-                                                        OrderPageLocators.ADD_STATION_LOCATOR,
-                                                        OrderPageLocators.TEL_LOCATOR, tel,
-                                                        OrderPageLocators.NEXT_BUTTON_LOCATOR,
-                                                        OrderPageLocators.DATA_BUTTON, data.day_delivery,
-                                                        OrderPageLocators.DAY_BUTTON,
-                                                        OrderPageLocators.RENTAL_PERIOD_BUTTON, OrderPageLocators.PERIOD_BUTTON,
-                                                        OrderPageLocators.COLOR_BUTTON,
-                                                        OrderPageLocators.COMMENTS_BUTTON, comment,
-                                                        OrderPageLocators.ORDER_BUTTON_LOCATOR,
-                                                        OrderPageLocators.YES_BUTTON,
-                                                        OrderPageLocators.ORDER_MODALHEADER_LOCATOR
-
-                                                        )
-
-
+        main_page = MainPage(driver)
+        main_page.click_header_order_button()
+        order_page.set_order_to_the_next_button(name, last_name, adress, data.name_station, tel)
+        order_page.set_order_to_the_order_button(data.day_delivery,comment)
+        assert 'Заказ оформлен' in order_page.page_set_order()
